@@ -22,8 +22,6 @@ import com.facebook.react.bridge.*;
 import com.facebook.react.common.annotations.VisibleForTesting;
 import com.facebook.react.module.annotations.ReactModule;
 
-import static com.reactcommunity.rndatetimepicker.Common.dismissDialog;
-
 /**
  * {@link NativeModule} that allows JS to show a native date picker dialog and get called back when
  * the user selects a date.
@@ -86,11 +84,6 @@ public class RNDatePickerDialogModule extends ReactContextBaseJavaModule {
     }
   }
 
-  @ReactMethod
-  public void dismiss(Promise promise) {
-    FragmentActivity activity = (FragmentActivity) getCurrentActivity();
-    dismissDialog(activity, FRAGMENT_TAG, promise);
-  }
   /**
    * Show a date picker dialog.
    *
@@ -117,47 +110,49 @@ public class RNDatePickerDialogModule extends ReactContextBaseJavaModule {
    *                dismiss, year, month and date are undefined.
    */
   @ReactMethod
-  public void open(@Nullable final ReadableMap options, final Promise promise) {
+  public void open(@Nullable final ReadableMap options, Promise promise) {
     FragmentActivity activity = (FragmentActivity) getCurrentActivity();
     if (activity == null) {
       promise.reject(
-        RNConstants.ERROR_NO_ACTIVITY,
-        "Tried to open a DatePicker dialog while not attached to an Activity");
+          RNConstants.ERROR_NO_ACTIVITY,
+          "Tried to open a DatePicker dialog while not attached to an Activity");
       return;
     }
 
-    final FragmentManager fragmentManager = activity.getSupportFragmentManager();
+    FragmentManager fragmentManager = activity.getSupportFragmentManager();
+    final RNDatePickerDialogFragment oldFragment = (RNDatePickerDialogFragment) fragmentManager.findFragmentByTag(FRAGMENT_TAG);
 
-    UiThreadUtil.runOnUiThread(new Runnable() {
-      @Override
-      public void run() {
-        RNDatePickerDialogFragment oldFragment =
-                (RNDatePickerDialogFragment) fragmentManager.findFragmentByTag(FRAGMENT_TAG);
-
-        if (oldFragment != null && options != null) {
+    if (oldFragment != null && options != null) {
+      UiThreadUtil.runOnUiThread(new Runnable() {
+        @Override
+        public void run() {
           oldFragment.update(createFragmentArguments(options));
-          return;
         }
+      });
 
-        RNDatePickerDialogFragment fragment = new RNDatePickerDialogFragment();
+      return;
+    }
 
-        if (options != null) {
-          fragment.setArguments(createFragmentArguments(options));
-        }
+    RNDatePickerDialogFragment fragment = new RNDatePickerDialogFragment();
 
-        final DatePickerDialogListener listener = new DatePickerDialogListener(promise);
-        fragment.setOnDismissListener(listener);
-        fragment.setOnDateSetListener(listener);
-        fragment.setOnNeutralButtonActionListener(listener);
-        fragment.show(fragmentManager, FRAGMENT_TAG);
-      }
-    });
+    if (options != null) {
+      fragment.setArguments(createFragmentArguments(options));
+    }
+
+    final DatePickerDialogListener listener = new DatePickerDialogListener(promise);
+    fragment.setOnDismissListener(listener);
+    fragment.setOnDateSetListener(listener);
+    fragment.setOnNeutralButtonActionListener(listener);
+    fragment.show(fragmentManager, FRAGMENT_TAG);
   }
 
   private Bundle createFragmentArguments(ReadableMap options) {
     final Bundle args = new Bundle();
     if (options.hasKey(RNConstants.ARG_VALUE) && !options.isNull(RNConstants.ARG_VALUE)) {
       args.putLong(RNConstants.ARG_VALUE, (long) options.getDouble(RNConstants.ARG_VALUE));
+    }
+    if (options.hasKey(RNConstants.ARG_LOCALE) && !options.isNull(RNConstants.ARG_LOCALE)) {
+      args.putString(RNConstants.ARG_LOCALE, options.getString(RNConstants.ARG_LOCALE));
     }
     if (options.hasKey(RNConstants.ARG_MINDATE) && !options.isNull(RNConstants.ARG_MINDATE)) {
       args.putLong(RNConstants.ARG_MINDATE, (long) options.getDouble(RNConstants.ARG_MINDATE));
@@ -171,11 +166,11 @@ public class RNDatePickerDialogModule extends ReactContextBaseJavaModule {
     if (options.hasKey(RNConstants.ARG_NEUTRAL_BUTTON_LABEL) && !options.isNull(RNConstants.ARG_NEUTRAL_BUTTON_LABEL)) {
       args.putString(RNConstants.ARG_NEUTRAL_BUTTON_LABEL, options.getString(RNConstants.ARG_NEUTRAL_BUTTON_LABEL));
     }
-    if (options.hasKey(RNConstants.ARG_TZOFFSET_MINS) && !options.isNull(RNConstants.ARG_TZOFFSET_MINS)) {
-      args.putLong(RNConstants.ARG_TZOFFSET_MINS, (long) options.getDouble(RNConstants.ARG_TZOFFSET_MINS));
+    if (options.hasKey(RNConstants.ARG_POSITIVE_BUTTON_LABEL) && !options.isNull(RNConstants.ARG_POSITIVE_BUTTON_LABEL)) {
+      args.putString(RNConstants.ARG_POSITIVE_BUTTON_LABEL, options.getString(RNConstants.ARG_POSITIVE_BUTTON_LABEL));
     }
-     if (options.hasKey(RNConstants.LOCALE) && !options.isNull(RNConstants.LOCALE)) {
-      args.putString(RNConstants.LOCALE,  options.getString(RNConstants.LOCALE));
+    if (options.hasKey(RNConstants.ARG_NEGATIVE_BUTTON_LABEL) && !options.isNull(RNConstants.ARG_NEGATIVE_BUTTON_LABEL)) {
+      args.putString(RNConstants.ARG_NEGATIVE_BUTTON_LABEL, options.getString(RNConstants.ARG_NEGATIVE_BUTTON_LABEL));
     }
     return args;
   }
