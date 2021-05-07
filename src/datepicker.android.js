@@ -36,7 +36,7 @@ export default class DatePickerAndroid {
    * when using the `minimumDate` and `maximumDate` options.
    */
   static async open(options: DatePickerOptions): Promise<DateTimePickerResult> {
-    toMilliseconds(options, 'value', 'minimumDate', 'maximumDate');
+    toMilliseconds(options, 'value', 'minimumDate', 'maximumDate', 'locale');
     options.display = options.display || DISPLAY_DEFAULT;
 
     return NativeModules.RNDatePickerAndroid.open(options);
