@@ -12,11 +12,11 @@ import {
   ANDROID_MODE,
   ANDROID_DISPLAY,
   DAY_OF_WEEK,
-  DISPLAY,
+  IOS_DISPLAY,
   IOS_MODE,
 } from './constants';
 
-export type IOSDisplay = $Keys<typeof DISPLAY>;
+export type IOSDisplay = $Keys<typeof IOS_DISPLAY>;
 export type IOSMode = $Keys<typeof IOS_MODE>;
 type AndroidMode = $Keys<typeof ANDROID_MODE>;
 type Display = $Keys<typeof ANDROID_DISPLAY>;
@@ -74,23 +74,22 @@ type TimeOptions = $ReadOnly<{|
   /**
    * Display TimePicker in 24 hour.
    */
-
+  is24Hour?: ?boolean,
 |}>;
 
 export type BaseProps = $ReadOnly<{|
   ...ViewProps,
   ...DateOptions,
-  /**
-   * The date picker locale.
-   */
-  locale?: ?string,
 |}>;
 
 export type IOSNativeProps = $ReadOnly<{|
   ...BaseProps,
   date?: ?Date,
 
-  
+  /**
+   * The date picker locale.
+   */
+  locale?: ?string,
 
   /**
    * The interval at which minutes can be selected.
@@ -157,9 +156,6 @@ export type AndroidNativeProps = $ReadOnly<{|
 
   onChange: (event: AndroidEvent, date?: Date) => void,
   neutralButtonLabel?: string,
-
-  positiveButtonLabel?:string,
-    negativeButtonLabel?:string,
 |}>;
 
 export type DatePickerOptions = {|
