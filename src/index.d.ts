@@ -129,6 +129,9 @@ export type AndroidNativeProps = Readonly<
 
       onChange?: (event: AndroidEvent, date?: Date) => void;
       neutralButtonLabel?: string;
+
+      positiveButtonLabel?:string;
+      negativeButtonLabel?:string;
     }
 >;
 
