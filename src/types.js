@@ -74,22 +74,23 @@ type TimeOptions = $ReadOnly<{|
   /**
    * Display TimePicker in 24 hour.
    */
-  is24Hour?: ?boolean,
+
 |}>;
 
 export type BaseProps = $ReadOnly<{|
   ...ViewProps,
   ...DateOptions,
+  /**
+   * The date picker locale.
+   */
+  locale?: ?string,
 |}>;
 
 export type IOSNativeProps = $ReadOnly<{|
   ...BaseProps,
   date?: ?Date,
 
-  /**
-   * The date picker locale.
-   */
-  locale?: ?string,
+  
 
   /**
    * The interval at which minutes can be selected.

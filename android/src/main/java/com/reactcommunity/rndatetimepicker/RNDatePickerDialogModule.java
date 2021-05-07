@@ -174,6 +174,9 @@ public class RNDatePickerDialogModule extends ReactContextBaseJavaModule {
     if (options.hasKey(RNConstants.ARG_TZOFFSET_MINS) && !options.isNull(RNConstants.ARG_TZOFFSET_MINS)) {
       args.putLong(RNConstants.ARG_TZOFFSET_MINS, (long) options.getDouble(RNConstants.ARG_TZOFFSET_MINS));
     }
+     if (options.hasKey(RNConstants.LOCALE) && !options.isNull(RNConstants.LOCALE)) {
+      args.putString(RNConstants.LOCALE,  options.getString(RNConstants.LOCALE));
+    }
     return args;
   }
 }

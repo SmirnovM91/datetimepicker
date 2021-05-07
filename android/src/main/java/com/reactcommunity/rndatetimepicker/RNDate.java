@@ -13,6 +13,7 @@ public class RNDate {
       now.setTimeZone(TimeZone.getTimeZone("GMT"));
       Integer timeZoneOffsetInMinutes = args.getInt(RNConstants.ARG_TZOFFSET_MINS);
       now.add(Calendar.MILLISECOND, timeZoneOffsetInMinutes * 60000);
+      now.setFirstDayOfWeek(1);
     }
 
     if (args != null && args.containsKey(RNConstants.ARG_VALUE)) {

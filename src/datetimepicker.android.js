@@ -40,6 +40,7 @@ function getPicker({
   neutralButtonLabel,
   minuteInterval,
   timeZoneOffsetInMinutes,
+  locale
 }) {
   switch (mode) {
     case MODE_TIME:
@@ -50,6 +51,7 @@ function getPicker({
         is24Hour,
         neutralButtonLabel,
         timeZoneOffsetInMinutes,
+        locale
       });
     case MODE_DATE:
     default:
@@ -60,6 +62,7 @@ function getPicker({
         maximumDate,
         neutralButtonLabel,
         timeZoneOffsetInMinutes,
+        locale
       });
   }
 }
@@ -90,6 +93,7 @@ export default function RNDateTimePicker(props: AndroidNativeProps) {
     neutralButtonLabel,
     minuteInterval,
     timeZoneOffsetInMinutes,
+    locale
   } = props;
   const valueTimestamp = value.getTime();
 
@@ -111,6 +115,7 @@ export default function RNDateTimePicker(props: AndroidNativeProps) {
         neutralButtonLabel,
         minuteInterval,
         timeZoneOffsetInMinutes,
+        locale
       });
 
       picker.then(

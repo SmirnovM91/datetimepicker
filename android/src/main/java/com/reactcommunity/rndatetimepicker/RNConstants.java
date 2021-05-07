@@ -14,6 +14,7 @@ public final class RNConstants {
   public static final String ACTION_TIME_SET = "timeSetAction";
   public static final String ACTION_DISMISSED = "dismissedAction";
   public static final String ACTION_NEUTRAL_BUTTON = "neutralButtonAction";
+  public static final String LOCALE = "locale";
 
   /**
    * Minimum date supported by {@link DatePicker}, 01 Jan 1900
