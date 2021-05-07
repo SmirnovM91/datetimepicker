@@ -12,11 +12,11 @@ import {
   ANDROID_MODE,
   ANDROID_DISPLAY,
   DAY_OF_WEEK,
-  IOS_DISPLAY,
+  DISPLAY,
   IOS_MODE,
 } from './constants';
 
-export type IOSDisplay = $Keys<typeof IOS_DISPLAY>;
+export type IOSDisplay = $Keys<typeof DISPLAY>;
 export type IOSMode = $Keys<typeof IOS_MODE>;
 type AndroidMode = $Keys<typeof ANDROID_MODE>;
 type Display = $Keys<typeof ANDROID_DISPLAY>;

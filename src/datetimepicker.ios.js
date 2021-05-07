@@ -11,31 +11,25 @@
  */
 import RNDateTimePicker from './picker';
 import {toMilliseconds} from './utils';
-import {IOS_DISPLAY, MODE_DATE} from './constants';
+import {DISPLAY,  MODE_DATE} from './constants';
 import invariant from 'invariant';
 import React, {useEffect, useState} from 'react';
 import {getPickerHeightStyle} from './layoutUtilsIOS';
 import {Platform, StyleSheet} from 'react-native';
 
-import type {
-  Event,
-  NativeRef,
-  IOSNativeProps,
-  DatePickerOptions,
-  IOSDisplay,
-} from './types';
 
-const getDisplaySafe = (display: IOSDisplay) => {
+
+const getDisplaySafe = (display) => {
   const majorVersionIOS = parseInt(Platform.Version, 10);
-  if (display === IOS_DISPLAY.inline && majorVersionIOS < 14) {
+  if (display === DISPLAY.inline && majorVersionIOS < 14) {
     // inline is available since 14.0
-    return IOS_DISPLAY.spinner;
+    return DISPLAY.spinner;
   }
   if (majorVersionIOS < 14) {
     // NOTE this should compare against 13.4, not 14 according to https://developer.apple.com/documentation/uikit/uidatepickerstyle/uidatepickerstylecompact?changes=latest_minor&language=objc
     // but UIDatePickerStyleCompact does not seem to work prior to 14
     // only the spinner display (UIDatePickerStyleWheels) is thus available below 14
-    return IOS_DISPLAY.spinner;
+    return DISPLAY.spinner;
   }
 
   return display;
@@ -55,9 +49,9 @@ export default function Picker({
   onChange,
   disabled = false,
   ...otherProps
-}: IOSNativeProps) {
+}) {
   const [heightStyle, setHeightStyle] = useState(undefined);
-  const _picker: NativeRef = React.useRef();
+  const _picker = React.useRef();
   const display = getDisplaySafe(otherProps.display);
 
   useEffect(
@@ -86,7 +80,7 @@ export default function Picker({
     [display, mode],
   );
 
-  const _onChange = (event: Event) => {
+  const _onChange = (event) => {
     const timestamp = event.nativeEvent.timestamp;
     let date;
 
@@ -104,7 +98,7 @@ export default function Picker({
     return null;
   }
 
-  const dates: DatePickerOptions = {value, maximumDate, minimumDate};
+  const dates = {value, maximumDate, minimumDate};
   toMilliseconds(dates, 'value', 'minimumDate', 'maximumDate');
 
   return (
@@ -131,5 +125,5 @@ export default function Picker({
 
 Picker.defaultProps = {
   mode: MODE_DATE,
-  display: IOS_DISPLAY.default,
+  display: DISPLAY.default,
 };
