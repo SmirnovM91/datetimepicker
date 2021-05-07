@@ -157,6 +157,9 @@ export type AndroidNativeProps = $ReadOnly<{|
 
   onChange: (event: AndroidEvent, date?: Date) => void,
   neutralButtonLabel?: string,
+
+  positiveButtonLabel?:string,
+    negativeButtonLabel?:string,
 |}>;
 
 export type DatePickerOptions = {|
