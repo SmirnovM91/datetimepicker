@@ -20,6 +20,13 @@ export const ANDROID_DISPLAY = Object.freeze({
   calendar: 'calendar',
 });
 
+export const DISPLAY = Object.freeze({
+  spinner: 'spinner',
+  default: 'default',
+  clock: 'clock',
+  calendar: 'calendar',
+});
+
 export const ANDROID_MODE = Object.freeze({
   date: 'date',
   time: 'time',
