@@ -136,6 +136,7 @@ public class RNDatePickerDialogFragment extends DialogFragment {
         }
 
         final DatePicker datePicker = dialog.getDatePicker();
+        datePicker.setFirstDayOfWeek(c.MONDAY);
 
         if (args != null && args.containsKey(RNConstants.ARG_MINDATE)) {
             // Set minDate to the beginning of the day. We need this because of clowniness in datepicker
