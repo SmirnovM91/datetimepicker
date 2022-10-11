@@ -103,6 +103,9 @@ RCT_CUSTOM_VIEW_PROPERTY(textColor, UIColor, RNDateTimePicker)
     [view setValue:defaultColor forKey:@"textColor"];
     [view setValue:@(YES) forKey:@"highlightsToday"];
   }
+  if (@available(iOS 13.0, *)) {
+    [view setOverrideUserInterfaceStyle:UIUserInterfaceStyleLight];
+  }
 }
 
 // TODO vonovak setting preferredDatePickerStyle invalidates minuteinterval
